@@ -19,3 +19,8 @@ Filename: msp.c
 Here is a one-liner that will compile, show extra warnings, stop on warnings and compile the code and then push it your device:
 
     msp430-gcc -Wall -Wextra -Werror -Os -O2 -mmcu=msp430g2231 -o msp.elf msp2.c && mspdebug rf2500 'erase all' 'prog msp.elf' 'run'
+
+Screen 
+
+Clear - Ctrl + a Shift + c
+Kill - Ctrl + a k

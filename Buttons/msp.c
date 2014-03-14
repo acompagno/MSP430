@@ -47,7 +47,6 @@ int main()
 
   // Set RED LED on
   P1DIR |= BIT0 + BIT6;
-  0x01 + 0x06
 
   // Set GREEN LED off
   P1OUT &= ~BIT6;
