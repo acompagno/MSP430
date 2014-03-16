@@ -4,6 +4,7 @@ void uartInit();
 void uartPutChar(char a);
 void uartPutString(char *string);
 char uartGetChar();
+char switchCase(char a);
 
 int main( void )
 {
@@ -13,16 +14,16 @@ int main( void )
     //Calibrate DCO
     BCSCTL1 = CALBC1_1MHZ;
     DCOCTL = CALDCO_1MHZ;              
-    
+
     uartInit();
-    
+
     //Indicator LED 
     P1DIR |= BIT6;
-
+    for(;;)
+        uartPutChar(switchCase(uartGetChar()));
     //General Interrupt Enable
     _BIS_SR(GIE);
-    
-    
+
     return 0;
 }
 
@@ -47,9 +48,7 @@ void uartInit()
     UCA0MCTL = UCBRS1;                  
     // **Initialize USCI  
     UCA0CTL1 &= ~UCSWRST;                   
-
 }
-
 
 /***********
  *Send data*
@@ -71,10 +70,21 @@ void uartPutString(char *string)
 }
 
 /*************
-*Receive data*
-**************/
+ *Receive data*
+ **************/
 char uartGetChar()
 {
     while ((IFG2&0x01)==0);
     return (UCA0RXBUF);
+}
+
+
+char switchCase(char a)
+{
+    if(a >= 'a' && a <= 'z')
+        return a - 0x20;
+    else if (a >= 'A' && a <= 'Z')
+        return a + 0x20;
+    else
+        return a;
 }
