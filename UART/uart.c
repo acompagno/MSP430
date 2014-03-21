@@ -75,7 +75,7 @@ void uartPutString(char *string)
 char uartGetChar()
 {
     //wait for the buffer to clear
-    while ((IFG2&0x01)==0);
+    while (!(IFG2&0x01));
     return (UCA0RXBUF);
 }
 
@@ -84,10 +84,10 @@ char uartGetChar()
 * If the character is not a letter, it is returned unchanged
 * Ex 'a' -> 'A'
 * Ex 'A' -> 'a'
-* Ex '>' -> '>'
+* Ex ';' -> ';'
 */
 char switchCase(char a)
 {
-    return (a >= 'a' && a <= 'z') ? a - 0x020 : 
-        (a >= 'A' && a <= 'Z') ? a + 0x020 : a;
+    return (a >= 'a' && a <= 'z') ? a - 0x20 : 
+        (a >= 'A' && a <= 'Z') ? a + 0x20 : a;
 }
