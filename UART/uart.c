@@ -22,7 +22,7 @@ int main( void )
     for(;;)
         uartPutChar(switchCase(uartGetChar()));
     //General Interrupt Enable
-    _BIS_SR(GIE);
+    //_BIS_SR(GIE);
 
     return 0;
 }
@@ -74,17 +74,20 @@ void uartPutString(char *string)
  **************/
 char uartGetChar()
 {
+    //wait for the buffer to clear
     while ((IFG2&0x01)==0);
     return (UCA0RXBUF);
 }
 
-
+/*
+* Changes the case of the characer passed in if its a letter
+* If the character is not a letter, it is returned unchanged
+* Ex 'a' -> 'A'
+* Ex 'A' -> 'a'
+* Ex '>' -> '>'
+*/
 char switchCase(char a)
 {
-    if(a >= 'a' && a <= 'z')
-        return a - 0x20;
-    else if (a >= 'A' && a <= 'Z')
-        return a + 0x20;
-    else
-        return a;
+    return (a >= 'a' && a <= 'z') ? a - 0x020 : 
+        (a >= 'A' && a <= 'Z') ? a + 0x020 : a;
 }
